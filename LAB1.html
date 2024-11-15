@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced ATM System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+            padding: 30px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            border-radius: 5px;
+            padding: 30px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);   
+        }
+        h2 {
+            text-align: center;
+        }
+        input[type="text"], input[type="password"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            background-color: #6c28e9;
+            padding: 10px;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #6c28e9;
+        }
+        .message {
+            margin-top: 30px;
+            text-align: center;
+        }
+    </style>
+</head>     
+<body>
+
+<div class="container">
+    <h2>ATM system</h2>
+    <input type="text" id="cardNumber" placeholder="enter card number(123456789)" />
+    <input type="password" id="password" placeholder="enter password(password123)" />
+    <button onclick="login()">Login</button>
+    <div class="message" id="loginMessage"></div>
+
+    <div id="withdrawalSection" style="display:none;">
+        <h3>cash Withdrawal</h3>
+        <input type="number" id="withdrawalAmount" placeholder="enter amount to withdraw" min="1" />
+        <button onclick="withdrawCash()">Withdrawal</button>
+        <div class="message" id="withdrawalMessage"></div> 
+    </div> 
+</div>
+
+<script>
+    let accountBalance = 10000;
+    const validCardNumber = "123456789";
+    const validPassword = "password123";
+
+    function login() {
+        const cardNumber = document.getElementById('cardNumber').value;
+        const password = document.getElementById('password').value;
+        const loginMessage = document.getElementById('loginMessage');
+
+        if (cardNumber === validCardNumber && password === validPassword) {
+            loginMessage.innerHTML = "Login successful. You can now withdraw cash.";
+            loginMessage.style.color = "green";
+            document.getElementById('withdrawalSection').style.display = "block";            
+        } else {
+            loginMessage.innerHTML = "Invalid card number or password";
+            loginMessage.style.color = "red";
+        } 
+    }
+    
+    function withdrawCash() {
+        const amount = parseFloat(document.getElementById('withdrawalAmount').value);
+        const withdrawalMessage = document.getElementById('withdrawalMessage');
+
+        if (isNaN(amount) || amount <= 0) {
+            withdrawalMessage.innerHTML = "Please enter a valid amount.";
+            withdrawalMessage.style.color = "red";
+            return;
+        }
+        
+        if (amount > accountBalance) {
+            withdrawalMessage.innerHTML = "Insufficient funds";
+            withdrawalMessage.style.color = "red";
+        } else {
+            accountBalance -= amount;
+            withdrawalMessage.innerHTML = `withdrawal successful. Remaining balance: ₺${accountBalance.toFixed(2)}`;
+            withdrawalMessage.style.color = 'green';
+        }
+    }
+</script>
+
+</body>
+</html>
+
